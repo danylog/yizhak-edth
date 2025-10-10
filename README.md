@@ -1,1 +1,2 @@
-# yizhak-edth
+# Yizhak (Їжак) EDTH Hamburg Hackathon project
+
