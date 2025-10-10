@@ -1,0 +1,145 @@
+# Arduino IDE
+# Compiled Object files
+*.o
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Arduino build directory
+build/
+*.build/
+.build/
+
+# Arduino IDE temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# Arduino core cache
+.arduino/
+.arduino15/
+
+# ESP32 specific
+.esptool_py/
+esp32/tools/
+bootloader.bin
+partitions.bin
+
+# PlatformIO (if used alongside Arduino IDE)
+.pio
+.pioenvs
+.piolibdeps
+.platformio
+*.pio
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows specific
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux specific
+*~
+.directory
+.Trash-*
+.nfs*
+
+# IDE and Editors
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.cproject
+.project
+.settings/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Temporary files
+*.log
+*.temp
+*.tmp
+
+# Arduino library manager
+libraries/
+!libraries/readme.txt
+
+# Sketch backup files
+*.ino.bak
+*.cpp.bak
+*.h.bak
+
+# Serial monitor logs
+serial_*.txt
