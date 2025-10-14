@@ -1,14 +1,8 @@
 void initRadio(){
   // If this is a new node, the nodeID will return 0. Once the node is configured with an ID other than 0, this
   // bit will no longer run.
-  while (!mesh.getNodeID()) {
-    // Wait for the nodeID to be set via Serial
-    if (Serial.available()) {
-      mesh.setNodeID(Serial.read());
-      Serial.print("Set NodeID: ");
-      Serial.println(mesh.getNodeID());
-    }
-  }
+mesh.setNodeID(NODE_ID);
+Serial.println(NODE_ID);
   // Set the PA Level to MIN and disable LNA for testing & power supply related issues
   radio.begin();
   radio.setPALevel(RF24_PA_MIN, 0);
