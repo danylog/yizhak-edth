@@ -1,37 +1,26 @@
-/** RF24Mesh_Example_Master.ino by TMRh20
- *
- *
- * This example sketch shows how to manually configure a node via RF24Mesh as a master node, which
- * will receive all data from sensor nodes.
- *
- * The nodes can change physical or logical position in the network, and reconnect through different
- * routing nodes as required. The master node manages the address assignments for the individual nodes
- * in a manner similar to DHCP.
- *
- */
-
 #include "RF24Network.h"
 #include "RF24.h"
 #include "RF24Mesh.h"
 #include <SPI.h>
-// WiFi / HTTP for ESP32
+
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <WiFiManager.h>
 
+#include "env.h"
+
 WiFiManager wm;
 
-/***** Configure the chosen CE,CS pins *****/
-RF24 radio(4, 5);
+#define CEPin 4
+#define CSPin 5
+
+RF24 radio(CEPin, CSPin);
 RF24Network network(radio);
 RF24Mesh mesh(radio, network);
 
 uint32_t displayTimer = 0;
 
-const char *SERVER_URL = "https://lora-mesh-backend-1098998370639.europe-west3.run.app/api/events"; // full URL
-
-// Batch/post parameters
-const uint32_t POST_INTERVAL_MS = 5000UL; // send every 10s
+const uint32_t POST_INTERVAL_MS = 5000UL; // send every 5s
 const size_t BUFFER_SIZE = 128;            // stored messages capacity
 const size_t MAX_BATCH_SEND = 50;          // max messages per POST
 
@@ -47,8 +36,6 @@ struct __attribute__((packed)) SensorMsg
   float latitude;           // latitude in degrees
   float longitude;          // longitude in degrees
 };
-
-// store a received message along with the time master received it
 
 // store a received message along with the time master received it
 struct StoredMsg
@@ -186,8 +173,6 @@ void setup()
 {
   Serial.begin(115200);
   bool res;
-  // res = wm.autoConnect(); // auto generated AP name from chipid
-  // res = wm.autoConnect("AutoConnectAP"); // anonymous ap
   res = wm.autoConnect("AutoConnectAP", "password"); // password protected ap
   while (!Serial)
   {
@@ -238,10 +223,10 @@ void loop()
     // Display the incoming millis() values from the sensor nodes
     case 'M':
       network.read(header, &msg, sizeof(msg));
-      Serial.print("battery voltage: ");
-      Serial.println(msg.battery_voltage,3);
-      Serial.print("sensor value: ");
-      Serial.println(msg.sensor_value);
+      // Serial.print("battery voltage: ");
+      // Serial.println(msg.battery_voltage,3);
+      // Serial.print("sensor value: ");
+      // Serial.println(msg.sensor_value);
       // Serial.print("latitude:");
       // Serial.println(msg.latitude, 7);
       // Serial.print("longitude:");
