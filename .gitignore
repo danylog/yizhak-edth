@@ -1,4 +1,6 @@
 env.h
+env_a.h
+env_b.h
 
 # Arduino IDE
 # Compiled Object files
