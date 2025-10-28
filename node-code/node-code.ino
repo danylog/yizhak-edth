@@ -9,21 +9,20 @@
 
 #include <TinyGPSPlus.h>
 #include <SoftwareSerial.h>
-/*
-   This sample sketch demonstrates the normal use of a TinyGPSPlus (TinyGPSPlus) object.
-   It requires the use of SoftwareSerial, and assumes that you have a
-   4800-baud serial GPS device hooked up on pins 4(rx) and 3(tx).
-*/
-static const int RXPin = 4, TXPin = 3;
-static const uint32_t GPSBaud = 9600;
 
-// The TinyGPSPlus object
+#define RXPin 4
+#define TXPin 3
+
+#define CEPin 9
+#define CSPin 8
+
+#define GPSBaud 9600
+
 TinyGPSPlus gps;
 
-// The serial connection to the GPS device
 SoftwareSerial ss(RXPin, TXPin);
 
-RF24 radio(9, 8);
+RF24 radio(CEPin, CSPin);
 RF24Network network(radio);
 RF24Mesh mesh(radio, network);
 
@@ -34,25 +33,19 @@ uint32_t lastRenewAttempt = 0;
 #define MSG_VERSION 1
 #define DEVICE_ID 12 // add/update in env.h as a numeric id
 
+//Message to send to ESP32
 struct __attribute__((packed)) SensorMsg
 {
   uint16_t deviceId;        // numeric device id
   uint32_t timestamp_ms;    // millis()
   int16_t sensor_value;     // temperature in centi-degrees (e.g. 2345 = 23.45°C)
-  float battery_voltage; // battery voltage in millivolts (e.g. 3600 = 3.6V)
+  float battery_voltage;    // battery voltage in millivolts (e.g. 3600 = 3.6V)
   float latitude;           // latitude in degrees
   float longitude;          // longitude in degrees
 };
 
 SensorMsg msg;
-// Generic payload used when receiving packets from the network
-// The incoming packet in this sketch expects a small payload with a millisecond
-// timestamp and a counter field. Keep it packed to match network layout.
-struct __attribute__((packed)) payload_t
-{
-  uint32_t ms;
-  uint32_t counter;
-};
+
 
 void setup()
 {
@@ -104,8 +97,8 @@ void loop()
         // If a write fails, check connectivity to the mesh network
         if (!mesh.checkConnection())
         {
-          // avoid spamming renewAddress — only attempt every 10s
-          if (millis() - lastRenewAttempt > 10000UL)
+          // avoid spamming renewAddress — only attempt every 1s
+          if (millis() - lastRenewAttempt > 1000UL)
           {
             lastRenewAttempt = millis();
             Serial.println("Renewing Address");
@@ -138,11 +131,11 @@ void loop()
   while (network.available())
   {
     RF24NetworkHeader header;
-    payload_t payload;
+    SensorMsg payload;
     network.read(header, &payload, sizeof(payload));
-    Serial.print("Received packet #");
-    Serial.print(payload.counter);
+    Serial.print("Received packet from");
+    Serial.print(payload.deviceId);
     Serial.print(" at ");
-    Serial.println(payload.ms);
+    Serial.println(payload.timestamp_ms);
   }
 }
