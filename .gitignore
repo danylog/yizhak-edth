@@ -1,6 +1,7 @@
 env.h
-env_a.h
-env_b.h
+env*.h
+
+!env_*_example.h
 
 # Arduino IDE
 # Compiled Object files
